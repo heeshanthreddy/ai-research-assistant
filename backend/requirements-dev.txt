@@ -1,0 +1,2 @@
+# Only needed to run the automated tests (builds a small synthetic test PDF)
+reportlab

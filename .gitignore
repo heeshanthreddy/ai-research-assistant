@@ -1,0 +1,27 @@
+# secrets / environment
+.env
+.env.*
+!.env.example
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+instance/
+*.db
+*.sqlite3
+
+# uploaded (private) research documents and trained model artefacts
+uploads/
+backend/models/
+
+# node / build
+node_modules/
+frontend/dist/
+
+# editors / OS
+.vscode/
+.idea/
+.DS_Store
+tempCodeRunnerFile.py
