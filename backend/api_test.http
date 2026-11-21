@@ -1,0 +1,62 @@
+### Manual API checks (VS Code "REST Client" extension). No real tokens are stored here:
+### run the login request, copy the access_token from the response and paste it below.
+@base = http://127.0.0.1:5000/api
+@token = PASTE_ACCESS_TOKEN_HERE
+
+### Register
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{ "username": "demo", "email": "demo@example.com", "password": "change-me-123" }
+
+### Login
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{ "email": "demo@example.com", "password": "change-me-123" }
+
+### Create a project
+POST {{base}}/projects/
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "title": "My project", "description": "demo", "research_field": "NLP" }
+
+### List papers of project 1
+GET {{base}}/projects/1/papers
+Authorization: Bearer {{token}}
+
+### Upload a PDF to project 1 (use the Papers tab in the UI, or curl):
+### curl -H "Authorization: Bearer <token>" -F "file=@paper.pdf" http://127.0.0.1:5000/api/projects/1/papers
+
+### Which embedder is active?
+GET {{base}}/nlp/status
+Authorization: Bearer {{token}}
+
+### Ask (extractive answer with citations + verification)
+POST {{base}}/projects/1/ask
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "question": "What problem does the paper address?" }
+
+### Idea analysis
+POST {{base}}/projects/1/idea
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "idea": "Describe a proposed research idea here" }
+
+### Overlap check
+POST {{base}}/projects/1/overlap
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "text": "Paste a paragraph to compare with the uploaded papers." }
+
+### Retrieval evaluation on YOUR labelled queries (smoke test unless the set is large)
+POST {{base}}/projects/1/evaluation/retrieval
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "k": 5, "queries": [ { "question": "example question", "relevant_paper_ids": [1] } ] }

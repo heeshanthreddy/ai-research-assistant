@@ -1,0 +1,5 @@
+# Optional: enables the semantic all-MiniLM-L6-v2 embedder (runs locally on CPU).
+# Without it the app uses the lexical hashing fallback (clearly labelled as such).
+# The model weights (~90 MB) are downloaded once from the Hugging Face hub and
+# then cached; no API key is needed.
+sentence-transformers
