@@ -46,13 +46,7 @@ class PipelineAPI(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         embeddings.reset_embedder()
-        with cls.app.app_context():
-            db.session.remove()
-            db.engine.dispose()
-        try:
-            cls.tmp.cleanup()
-        except PermissionError:
-            pass
+        cls.tmp.cleanup()
 
     @classmethod
     def _login(cls, name):
@@ -226,8 +220,7 @@ class PipelineAPI(unittest.TestCase):
         for dirpath, _, files in os.walk(root):
             for f in files:
                 if f.endswith(".py"):
-                    with open(os.path.join(dirpath, f), encoding="utf-8") as fh:
-                        src = fh.read()
+                    src = open(os.path.join(dirpath, f), encoding="utf-8").read()
                     for b in banned:
                         self.assertNotIn(b, src, f"{b} found in {f}")
 

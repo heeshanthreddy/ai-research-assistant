@@ -65,13 +65,7 @@ def main():
     if ans.get("verification"):
         print("VERIFY    :", json.dumps({k: ans["verification"]["metrics"][k] for k in
               ("citation_accuracy", "citation_coverage", "threshold")}))
-    with app.app_context():
-        db.session.remove()
-        db.engine.dispose()
-    try:
-        tmp.cleanup()
-    except PermissionError:
-        pass
+    tmp.cleanup()
 
 
 if __name__ == "__main__":
