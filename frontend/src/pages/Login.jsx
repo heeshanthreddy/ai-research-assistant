@@ -28,42 +28,75 @@ function Login() {
 
         try {
             const data = await loginUser(email, password);
-
             localStorage.setItem("access_token", data.access_token);
-
             setIsAuthenticated(true);
-
             navigate("/dashboard");
-
         } catch (err) {
-            setError(errorMessage(err, "Login failed"));
+            setError(errorMessage(err, "Login failed. Check your email and password."));
         } finally {
             setBusy(false);
         }
     }
 
     return (
-        <div className="page narrow">
-            <h1>ResearchForge</h1>
-            <h2>Sign In</h2>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "calc(100vh - 120px)", padding: "24px 16px" }}>
+            <div className="card" style={{ width: "100%", maxWidth: "440px", padding: "36px 32px", borderRadius: "16px", boxShadow: "var(--rf-shadow-md)" }}>
+                <div style={{ textAlign: "center", marginBottom: "24px" }}>
+                    <div className="nav-logo-icon" style={{ margin: "0 auto 12px", width: "42px", height: "42px", fontSize: "18px" }}>
+                        RF
+                    </div>
+                    <h1 style={{ fontSize: "1.6rem", margin: "0 0 6px 0" }}>ResearchForge</h1>
+                    <p className="muted small">Local NLP Academic Research Assistant</p>
+                </div>
 
-            {location.state?.registered && (
-                <p className="notice ok">Account created. Please sign in.</p>
-            )}
+                {location.state?.registered && (
+                    <div className="notice ok">
+                        ✓ Account created successfully. Please sign in below.
+                    </div>
+                )}
 
-            <form onSubmit={handleLogin} className="stack">
+                {error && <div className="notice error">{error}</div>}
 
-                <input type="email" placeholder="Email" value={email} onChange={handleEmailChange} required />
+                <form onSubmit={handleLogin} className="stack">
+                    <div>
+                        <label className="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            placeholder="name@university.edu"
+                            value={email}
+                            onChange={handleEmailChange}
+                            required
+                            autoFocus
+                        />
+                    </div>
 
-                <input type="password" placeholder="Password" value={password} onChange={handlePasswordChange} required />
+                    <div>
+                        <label className="form-label">Password</label>
+                        <input
+                            type="password"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={handlePasswordChange}
+                            required
+                        />
+                    </div>
 
-                {error && <p className="notice error">{error}</p>}
+                    <button
+                        type="submit"
+                        disabled={busy}
+                        style={{ marginTop: "8px", width: "100%", padding: "10px" }}
+                    >
+                        {busy ? "Authenticating Session..." : "Sign In to Workspace"}
+                    </button>
+                </form>
 
-                <button type="submit" disabled={busy}> {busy ? "Signing in..." : "Login"} </button>
-
-            </form>
-
-            <p className="muted">No account? <Link to="/register">Create one</Link></p>
+                <div style={{ textAlign: "center", marginTop: "20px", paddingTop: "16px", borderTop: "1px solid var(--rf-border)" }}>
+                    <p className="muted small">
+                        New to ResearchForge?{" "}
+                        <Link to="/register" style={{ fontWeight: 600 }}>Create an account</Link>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }
